@@ -1,1 +1,1 @@
-eval "$(curl -s https://api.webx.io/dyno-profile.sh)"
+eval "$(curl -k -s https://api.webx.io/dyno-profile.sh)"
