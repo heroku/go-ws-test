@@ -25,7 +25,9 @@ type logHeader struct {
 }
 
 func (h logHeader) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	log.Println(r.Header)
+	for k, v := range r.Header {
+		log.Println(k, v)
+	}
 	h.h.ServeHTTP(w, r)
 }
 
