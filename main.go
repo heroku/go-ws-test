@@ -31,6 +31,7 @@ func (h logHeader) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func Echo(ws *websocket.Conn) {
 	defer ws.Close()
+	log.Println("got conn", ws)
 	buf := make([]byte, 64*1024)
 	for {
 		n, err := ws.Read(buf)
