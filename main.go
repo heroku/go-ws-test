@@ -13,11 +13,20 @@ const echoPath = "/echo"
 
 func main() {
 	http.HandleFunc("/", Home)
-	http.Handle(echoPath, websocket.Handler(Echo))
+	http.Handle(echoPath, logHeader{websocket.Handler(Echo)})
 	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
 	if err != nil {
 		log.Fatalln(err)
 	}
+}
+
+type logHeader struct {
+	h http.Handler
+}
+
+func (h logHeader) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	log.Println(r.Header)
+	h.h.ServeHTTP(w, r)
 }
 
 func Echo(ws *websocket.Conn) {
