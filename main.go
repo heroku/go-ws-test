@@ -29,6 +29,7 @@ func (h logHeader) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		log.Println(k, v)
 	}
 	h.h.ServeHTTP(w, r)
+	log.Println("done")
 }
 
 func Echo(ws *websocket.Conn) {
