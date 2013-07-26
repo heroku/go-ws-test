@@ -9,32 +9,18 @@ import (
 	"time"
 )
 
-const echoPath = "/echo"
-
 func main() {
+	log.SetPrefix("wsdemo: ")
 	http.HandleFunc("/", Home)
-	http.Handle(echoPath, logHeader{websocket.Handler(Echo)})
+	http.Handle("/echo", websocket.Handler(Echo))
 	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
 	if err != nil {
 		log.Fatalln(err)
 	}
 }
 
-type logHeader struct {
-	h http.Handler
-}
-
-func (h logHeader) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	for k, v := range r.Header {
-		log.Println(k, v)
-	}
-	h.h.ServeHTTP(w, r)
-	log.Println("done")
-}
-
 func Echo(ws *websocket.Conn) {
 	defer ws.Close()
-	log.Println("got conn", ws)
 	buf := make([]byte, 64*1024)
 	for {
 		n, err := ws.Read(buf)
@@ -59,7 +45,7 @@ const home = `
 <meta charset="utf-8" />
 <title>WebSocket Test</title>
 <script language="javascript" type="text/javascript">
-var wsUri = "ws://" + document.location.host + "` + echoPath + `";
+var wsUri = "ws://" + document.location.host + "/echo";
 var output, msg;
 function init() {
 	output = document.getElementById("output");
@@ -123,7 +109,8 @@ function writeToScreen(message, color) {
 </script>
 <h2>WebSocket Test</h2>
 <form id=theform>
-<input id=msg>
+<input id=msg placeholder="Type a message">
+<input type=submit>
 </form>
 <div id=output></div>
 <script>
