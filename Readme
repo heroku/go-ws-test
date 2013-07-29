@@ -1,0 +1,12 @@
+This is a very basic Heroku app that serves websockets.
+
+The HTML and JavaScript parts are adapted from
+http://www.websocket.org/echo.html
+
+To run locally:
+
+    $ go get github.com/kr/wsdemo
+    $ foreman start -d $GOPATH/src/github.com/kr/wsdemo
+
+To run on Heroku, you need a router that provides
+websocket support, such as https://github.com/kr/webx
