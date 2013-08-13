@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	log.SetPrefix("wsdemo: ")
+	log.SetPrefix("go-ws-test: ")
 	http.HandleFunc("/", Home)
 	http.Handle("/echo", websocket.Handler(Echo))
 	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)

@@ -1,1 +1,1 @@
-web: wsdemo
+web: go-ws-test
